@@ -8,8 +8,8 @@ LIRI is a command line node app, so the user must use of the following four comm
 "concert-this" , "spotify-this-song" , "movie-this" , "do-what-it-says"
 
 How to deploy this app:
-Clone repo
-Run npm install
+Clone repo -
+Run npm install -
 In the command line, run node liri.js <one of the prompts from above>
  
 
