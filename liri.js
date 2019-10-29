@@ -1,15 +1,13 @@
+require('dotenv').config();
 
-//require for node modules and npm's
+//variables for node modules and npm's
 const keys = require('./keys.js');
 const fs = require('fs');
 const request = require('request');
-const spotify = require('node-spotify-api');
+const Spotify = require('node-spotify-api');
 const axios = require('axios');
-const dotenv = require('dotenv').config();
 const moment = require('moment');
-
-//Spotify key
-//var spotify = new Spotify (keys.spotify);
+const spotify = new Spotify (keys.spotify);
 
 
 var userPrompt = function(userCommand){
@@ -27,48 +25,66 @@ var userPrompt = function(userCommand){
             searchMovie();
             break;
         case "do-what-it-says":
-            doSay();
+            doWhatISay();
             break;
     }
 }
 userPrompt();
 
-var searchSpotify = function (songName){
+function searchSpotify(songName){
+
+    songName = process.argv.splice(3).join(" ");
+
     if (songName === undefined){
         songName = "The Sign";
-    } else{
-        //SPOTIFY API????
-    }
+    };
 
-    console.log(`Artist: ${artist} \nSong Name: ${song} \nAlbum: ${album} \n Preview song here: ${alink}`);
+    spotify.search({
 
+        type: "track",
+        query: songName
+    }, function (err, response) {
+        if (err) {
+            console.log(err)
+        }
+          
+       var allSongs = response.tracks.items;
+        console.log(allSongs);
+
+        for (var x=0; x=allSongs.length; x++){
+         //console.log(`Song Name: ${allSongs[x].album.name}\nArtist: ${allSongs[x].artists}\nAlbum: ${allSongs[x].album}\nPreview song here: ${allSongs[x].preview_url}`)
+         fs.appendFileSync("log.txt", )
+        }
+})
 }
 
-function searchMovie (movieName){
-    movieName = process.argv[3];
 
-    if (movieName === undefined){
-        movieName = "Mr. Nobody";  
+function searchMovie (movie){
+  //  movieName = process.argv[3]
+    movie = process.argv.splice(3).join(" ");
+
+    if (movie === undefined){
+        movie = "Mr. Nobody";  
     } ; 
 
-    var queryURL = "https://www.omdbapi.com/?t=" + movieName + "&apikey=trilogy";
+    var queryURL = "https://www.omdbapi.com/?t=" + movie + "&apikey=trilogy";
 
     axios({
       url: queryURL,
       method: "GET"
     }).then(function(response) { 
-        //console.log(process.argv[3])
         //console.log(response.data);
        console.log(`Title of the movie: ${response.data.Title} \nYear the movie came out: ${response.data.Year} \nIMDB Rating of the movie: ${response.data.Rated}\nRotten Tomatoes Rating: ${response.data.Ratings[1].Value}\nCountry where the movie was produced: ${response.data.Country} \nLanguage: ${response.data.Language} \nPlot: ${response.data.Plot} \nActors: ${response.data.Actors}`);
-
+        
+       fs.appendFileSync("log.txt",`Title of the movie: ${response.data.Title} \nYear the movie came out: ${response.data.Year} \nIMDB Rating of the movie: ${response.data.Rated}\nRotten Tomatoes Rating: ${response.data.Ratings[1].Value}\nCountry where the movie was produced: ${response.data.Country} \nLanguage: ${response.data.Language} \nPlot: ${response.data.Plot} \nActors: ${response.data.Actors} \n-----------`)
+       
 });
-
 }
 
 
 function searchConcert(artist){
 
-    artist = process.argv[3];
+    artist = process.argv.splice(3).join(" ");
 
     var queryURL = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
@@ -80,9 +96,30 @@ function searchConcert(artist){
     var date= response.data[0].datetime 
     var momentDate= moment(date).format('L')
    // console.log(momentDate)
-   console.log(`Artist: ${response.data[0].venue.name} \nVenue Location: ${response.data[0].venue.city} \nDate: ${momentDate}`);
+   console.log(`Venue: ${response.data[0].venue.name} \nVenue Location: ${response.data[0].venue.city} \nDate: ${momentDate}`);
+  
+   fs.appendFileSync("log.txt",`Venue: ${response.data[0].venue.name} \nVenue Location: ${response.data[0].venue.city} \nDate: ${momentDate} \n-----------`);
 
 });
 }
 
-//var doSay = function(){}
+function doWhatISay(){
+
+    fs.readFile("random.txt", "utf8", function(err, response) {
+
+        if (err) {
+          return console.log(err);
+        }
+        //console.log(response);
+        var responseArr = response.split(",");
+
+       console.log(responseArr)
+
+       userCommand= responseArr[0];
+       songName= responseArr[1]   
+      // newSongName = replace(songName, newSongName);
+
+    searchSpotify(songName);
+    })
+    
+}
