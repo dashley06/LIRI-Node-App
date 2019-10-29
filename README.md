@@ -20,13 +20,13 @@ Screenshot:
 
 
 Technologies Utilized:
-NodeJS
-JavaScript
-Node-spotify-API
-Spotify API
-OMDB API
-Bands in Town API
-NPM Axios
+NodeJS,
+JavaScript,
+Node-spotify-API,
+Spotify API,
+OMDB API,
+Bands in Town API,
+Axios
 
 
 Author:

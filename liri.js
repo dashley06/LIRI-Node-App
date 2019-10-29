@@ -36,27 +36,26 @@ function searchSpotify(songName){
     songName = process.argv.splice(3).join(" ");
 
     if (songName === undefined){
-        songName = "The Sign";
+        songName = "The Sign"
     };
 
     spotify.search({
-
         type: "track",
-        query: songName
-    }, function (err, response) {
+        query: songName,
+    
+    }, function (err, data) {
         if (err) {
             console.log(err)
-        }
-          
-       var allSongs = response.tracks.items;
-        console.log(allSongs);
+        } 
+        console.log("\n------------------------\nSong Name: " + data.tracks.items[0].name);
+        console.log("Artist Name: " + data.tracks.items[0].artists[0].name);
+        console.log("Album Name: " + data.tracks.items[0].album.name);
+        console.log("Preview URL: " + data.tracks.items[0].preview_url + "\n------------------------\n");
 
-        for (var x=0; x=allSongs.length; x++){
-         //console.log(`Song Name: ${allSongs[x].album.name}\nArtist: ${allSongs[x].artists}\nAlbum: ${allSongs[x].album}\nPreview song here: ${allSongs[x].preview_url}`)
-         fs.appendFileSync("log.txt", )
+        fs.appendFileSync("log.txt", `Song Name: ${data.tracks.items[0].name} \nArtist Name: ${data.tracks.items[0].artists[0].name} \nAlbum Name: ${data.tracks.items[0].album.name} \nPreview URL: ${data.tracks.items[0].preview_url} \n------------------------\n`)
         }
-})
-}
+
+    )}
 
 
 function searchMovie (movie){
