@@ -13,10 +13,9 @@ Run npm install -
 In the command line, run node liri.js <one of the prompts from above>
  
 
-Screenshot:
+Screenshot Video:
 
-
-
+https://drive.google.com/open?id=1e9bSiT9F08EUhywBOzbK1BheJeql52g-
 
 
 Technologies Utilized:
