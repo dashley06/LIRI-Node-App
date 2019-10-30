@@ -47,10 +47,7 @@ function searchSpotify(songName){
         if (err) {
             console.log(err)
         } 
-        console.log("\n------------------------\nSong Name: " + data.tracks.items[0].name);
-        console.log("Artist Name: " + data.tracks.items[0].artists[0].name);
-        console.log("Album Name: " + data.tracks.items[0].album.name);
-        console.log("Preview URL: " + data.tracks.items[0].preview_url + "\n------------------------\n");
+        console.log(`\n------------------------ \nSong Name: ${data.tracks.items[0].name} \nArtist Name: ${data.tracks.items[0].artists[0].name} \nAlbum Name: ${data.tracks.items[0].album.name} \nPreview URL: ${data.tracks.items[0].preview_url} \n------------------------`);
 
         fs.appendFileSync("log.txt", `Song Name: ${data.tracks.items[0].name} \nArtist Name: ${data.tracks.items[0].artists[0].name} \nAlbum Name: ${data.tracks.items[0].album.name} \nPreview URL: ${data.tracks.items[0].preview_url} \n------------------------\n`)
         }
@@ -117,8 +114,6 @@ function doWhatISay(){
        userCommand= responseArr[0];
        songName= responseArr[1]   
       // newSongName = replace(songName, newSongName);
-
-    searchSpotify(songName);
     })
     
 }
